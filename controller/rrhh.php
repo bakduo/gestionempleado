@@ -65,7 +65,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
        public function getPoEmpleadoDescJson($id){
         require_once('lib/model/SQL.php');
         $test= QuerySQL::getInstance();
-        $sql="select (select descripcion from puestos where puesto = o.puesto),(select descripcion from objetivos where objetivo = o.objetivo)
+        $sql="select (select descripcion from puestos where puesto = o.puesto) as puesto,(select descripcion from objetivos where objetivo = o.objetivo) as objetivo
 from empleados e , objetivospuestos o
 where e.puesto = o.puesto and e.empleado=".$id;
         $test->setSQL($sql);
@@ -75,17 +75,17 @@ where e.puesto = o.puesto and e.empleado=".$id;
         public function getPoEmpleadoIdJson($id){
         require_once('lib/model/SQL.php');
         $test= QuerySQL::getInstance();
-        $sql="select o.puesto,(select descripcion from objetivos where objetivo = o.objetivo)
-from empleados e , objetivospuestos o
-where e.puesto = o.puesto and e.empleado=".$id;
+        $sql="select o.puesto,(select descripcion from objetivos where objetivo = o.objetivo) as objetivo
+        from empleados e , objetivospuestos o
+        where e.puesto = o.puesto and e.empleado=".$id;
         $test->setSQL($sql);
         return $test->getJson();
        }
 
-       public function getOEmpleadoDescJson(){
+       public function getOEmpleadoDescJson($id){
         require_once('lib/model/SQL.php');
         $test= QuerySQL::getInstance();
-        $sql="select (select descripcion from objetivos where objetivo = o.objetivo)
+        $sql="select (select descripcion from objetivos where objetivo = o.objetivo) as objetivo
 from empleados e , objetivospuestos o
 where e.puesto = o.puesto and e.empleado=".$id;
         $test->setSQL($sql);
