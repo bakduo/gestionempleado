@@ -130,6 +130,12 @@ if ($route){
             echo $app->json(array('error'=>$error,'success'=>$success));
         }
         break;
+    case '/setTargets':
+        require 'controller/rrhh.php';
+        $parametros=$app->request()->data;
+        $r = new Rrhh();
+        $r->setTargets($parametros['json']);
+        break;
     }
 }else{
 	echo "Don't Worry about that";
