@@ -138,6 +138,11 @@ where e.puesto = o.puesto and e.empleado=".$id;
         return $json;
       }
 
+      public function setFeedbackEmpleado($json){
+        require_once('lib/model/SQL.php');
+        return $json;
+      }
+
 
 }
 
