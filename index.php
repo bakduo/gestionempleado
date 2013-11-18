@@ -56,9 +56,9 @@ $app->router()->mapCustom('/empleado/@id:[0-9]+',$enabled);
 $app->router()->mapCustom('/empleados/',$enabled);
 $app->router()->mapCustom('/saveEmpleado',$enabled);
 $app->router()->mapCustom('/saveObjetivos',$enabled);
-$app->router()->mapCustom('/saveTargets/@json:[a-zA-Z0-9,:;{}]+',$enabled);
-$app->router()->mapCustom('/saveJusticaEmpleado/@json:[a-zA-Z0-9,:;{}]+',$enabled);
-$app->router()->mapCustom('/sendFeedback/@msj:[a-zA-Z0-9,:;{}]',$enabled);
+$app->router()->mapCustom('/saveTargets',$enabled);
+$app->router()->mapCustom('/saveJusticaEmpleado',$enabled);
+$app->router()->mapCustom('/sendFeedback',$enabled);
 
 //fin mapeos para las consultas de los hoteles
 
@@ -101,56 +101,42 @@ if ($route){
         $parametros=$route->getParams();
         echo $r->getOEmpleadoDescJson($parametros['id']);
         break;
-    case '/saveComment':
-        require 'controller/Message.php';
+    case '/saveTargets':
+        require 'controller/rrhh.php';
+        //$parametros=$route->getParams();
         $parametros=$app->request()->data;
+        //var_dump($_POST);
+        //var_dump($parametros);
+        //echo print_r($parametros);
+        //echo $parametros;
         
         if ($parametros){
-            $msj=new Message();
-            $resultado=$msj->saveMessageHotel($parametros['csrf'],$parametros['message'],$parametros['hotel']);
-            $app->json($resultado);
+            $r = new Rrhh();
+            echo $r->setTargets($parametros['info']);
         }else{
-            $success=false;
-            $error="<h2>No se inicio ningun procesamiento</h3>";
-            //$app->render('detail',array('info'=>$error));
-            //return json_encode(array('error'=>$error,'success'=>$success));
-            echo $app->json(array('error'=>$error,'success'=>$success));
+            echo "Error";
         }
+        
         break;
-    case '/saveContact':
-        require 'controller/Message.php';
+    case '/saveJusticaEmpleado':
+        require 'controller/rrhh.php';
         $parametros=$app->request()->data;
         if ($parametros){
-            $msj=new Message();
-            $resultado=$msj->saveMessageContact($parametros['csrf'],$parametros['message'],$parametros['subject']);
-            $app->json($resultado);
+            $r = new Rrhh();
+            echo $r->setJustificaEmpleado($parametros['json']);
         }else{
-            $success=false;
-            $error="<h2>No se inicio ningun procesamiento</h3>";
-            //$app->render('detail',array('info'=>$error));
-            //return json_encode(array('error'=>$error,'success'=>$success));
-            echo $app->json(array('error'=>$error,'success'=>$success));
+            echo "Error";
         }
         break;
-    case '/saveTargets/@json:[a-zA-Z0-9,:;{}]+':
+    case '/sendFeedback':
         require 'controller/rrhh.php';
-        $parametros=$route->getParams();
-        //$parametros=$app->request()->data;
-        $r = new Rrhh();
-        echo $r->setTargets($parametros['json']);
-        break;
-    case '/saveJusticaEmpleado/@json:[a-zA-Z0-9,:;{}]+':
-        require 'controller/rrhh.php';
-        $parametros=$route->getParams();
-        //$parametros=$app->request()->data;
-        $r = new Rrhh();
-        echo $r->setJustificaEmpleado($parametros['json']);
-        break;
-    case '/sendFeedback/@msj:[a-zA-Z0-9,:;{}]':
-        require 'controller/rrhh.php';
-        $parametros=$route->getParams();
-        $r = new Rrhh();
-        echo $r->setFeedbackEmpleado($parametros['json']);
+        $parametros=$app->request()->data;
+        if ($parametros){
+            $r = new Rrhh();
+            echo $r->setFeedbackEmpleado($parametros['json']);
+        }else{
+            echo "Error";   
+        }
         break;
     }
 }else{

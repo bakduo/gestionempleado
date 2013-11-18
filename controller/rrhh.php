@@ -130,17 +130,29 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        return $json;
+        //$myArray = json_decode($json, true);
+        //return $myArray;
+        //return $json;
+        //process the request by fetching the info
+        //$headers = http_get_request_headers();
+        //$result = http_get_request_body();
+        //do scandir(directory)tuff with the $headers and $result variables....
+        //then send your response
+        http_response_code(200);
+        return print_r(json_decode($json, true));
+        //return print_r($_POST);
       }
 
       public function setJustificaEmpleado($json){
         require_once('lib/model/SQL.php');
-        return $json;
+        http_response_code(200);
+        return print_r(json_decode($json, true));
       }
 
       public function setFeedbackEmpleado($json){
         require_once('lib/model/SQL.php');
-        return $json;
+        http_response_code(200);
+        return print_r(json_decode($json, true));
       }
 
 
