@@ -130,22 +130,32 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        //$myArray = json_decode($json, true);
-        //return $myArray;
-        //return $json;
-        //process the request by fetching the info
-        //$headers = http_get_request_headers();
-        //$result = http_get_request_body();
-        //do scandir(directory)tuff with the $headers and $result variables....
-        //then send your response
-        http_response_code(200);
-        $fp = fopen(LOGLOCAL, 'a+');
-        fwrite($fp, 'SaveTargets.../n');
-        fwrite($fp,$json);
-        fwrite($fp,"-------------------------fin---target---------/n");
-        fclose($fp);
-        return print_r(json_decode($json, true));
-        //return print_r($_POST);
+        $j = json_decode($json);
+        echo "<<<<<<<<<<<<<<<<<<<<<<";
+        echo "<<<<<<<<<<<<<<<<<<<<<<";
+        echo "<<<<<<<<<<<<<<<<<<<<<<";
+        print_r($j);
+        echo "<br></br>";
+        echo ">>>>>>>>>>>>>>>>>>>>>>";
+        echo ">>>>>>>>>>>>>>>>>>>>>>";
+        echo ">>>>>>>>>>>>>>>>>>>>>>";
+        die("putooo");
+        
+        echo "<pre>";
+        print_r($j);
+
+        for ($i=0; $i <sizeof($j) ; $i++) { 
+          $sql = "select objetivo from objetivos where descripcion = '".$j[$i]->objetivo."'";
+          print_r($sql);
+          echo "<br></br>";
+          $test= QuerySQL::getInstance();
+          $test->setSQL($sql);
+          $record=$test->excuteSQL();
+          print_r($record);
+        }
+        
+        die("");
+        
       }
 
       public function setJustificaEmpleado($json){

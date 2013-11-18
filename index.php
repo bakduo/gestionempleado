@@ -105,13 +105,7 @@ if ($route){
         break;
     case '/saveTargets':
         require 'controller/rrhh.php';
-        //$parametros=$route->getParams();
         $parametros=$app->request()->data;
-        //var_dump($_POST);
-        //var_dump($parametros);
-        //echo print_r($parametros);
-        //echo $parametros;
-        
         if ($parametros){
             $r = new Rrhh();
             echo $r->setTargets($parametros['json']);
