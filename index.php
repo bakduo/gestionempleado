@@ -112,7 +112,7 @@ if ($route){
         
         if ($parametros){
             $r = new Rrhh();
-            echo $r->setTargets($parametros['info']);
+            echo $r->setTargets($parametros['json']);
         }else{
             echo "Error";
         }
