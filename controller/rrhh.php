@@ -133,6 +133,11 @@ where e.puesto = o.puesto and e.empleado=".$id;
         return $json;
       }
 
+      public function setJustificaEmpleado($json){
+        require_once('lib/model/SQL.php');
+        return $json;
+      }
+
 
 }
 
