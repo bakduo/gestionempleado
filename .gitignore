@@ -2,11 +2,11 @@
 .gitignore
 gitignore
 config/settings.php
-lib/smarty 
-lib/purifier/ 
-testconection.php 
-lib/csrf/ 
-lib/Smarty-3.1.15/ 
+lib/smarty/*
+lib/purifier/*
+testconection.php
+lib/csrf/*
+lib/Smarty-3.1.15/*
 favicon.ico
-Entrega.sublime-workspace 
+Entrega.sublime-workspace
 Entrega.sublime-project
