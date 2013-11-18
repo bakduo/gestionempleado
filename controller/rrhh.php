@@ -130,8 +130,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-
-        
+        return $json;
       }
 
 

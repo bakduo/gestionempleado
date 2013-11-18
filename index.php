@@ -56,7 +56,7 @@ $app->router()->mapCustom('/empleado/@id:[0-9]+',$enabled);
 $app->router()->mapCustom('/empleados/',$enabled);
 $app->router()->mapCustom('/saveEmpleado',$enabled);
 $app->router()->mapCustom('/saveObjetivos',$enabled);
-$app->router()->mapCustom('/saveTarget',$enabled);
+$app->router()->mapCustom('/saveTargets/@json:[a-zA-Z0-9,:;{}]+',$enabled);
 
 //fin mapeos para las consultas de los hoteles
 
@@ -130,11 +130,12 @@ if ($route){
             echo $app->json(array('error'=>$error,'success'=>$success));
         }
         break;
-    case '/setTargets':
+    case '/saveTargets/@json:[a-zA-Z0-9,:;{}]+':
         require 'controller/rrhh.php';
-        $parametros=$app->request()->data;
+        $parametros=$route->getParams();
+        //$parametros=$app->request()->data;
         $r = new Rrhh();
-        $r->setTargets($parametros['json']);
+        echo $r->setTargets($parametros['json']);
         break;
     }
 }else{
