@@ -139,6 +139,11 @@ where e.puesto = o.puesto and e.empleado=".$id;
         //do scandir(directory)tuff with the $headers and $result variables....
         //then send your response
         http_response_code(200);
+        $fp = fopen(LOGLOCAL, 'a+');
+        fwrite($fp, 'SaveTargets.../n');
+        fwrite($fp,$json);
+        fwrite($fp,"-------------------------fin---target---------/n");
+        fclose($fp);
         return print_r(json_decode($json, true));
         //return print_r($_POST);
       }
@@ -146,13 +151,34 @@ where e.puesto = o.puesto and e.empleado=".$id;
       public function setJustificaEmpleado($json){
         require_once('lib/model/SQL.php');
         http_response_code(200);
+        $fp = fopen(LOGLOCAL,'a+');
+        fwrite($fp, 'setJustificaEmpleado.../n');
+        fwrite($fp,$json);
+        fwrite($fp,"-------------------------fin---setJustificaEmpleado---------/n");
+        fclose($fp);
         return print_r(json_decode($json, true));
       }
 
       public function setFeedbackEmpleado($json){
         require_once('lib/model/SQL.php');
         http_response_code(200);
+        $fp = fopen(LOGLOCAL, 'a+');
+        fwrite($fp, 'setFeedbackEmpleado.../n');
+        fwrite($fp,$json);
+        fwrite($fp,"-------------------------fin---setFeedbackEmpleado---------/n");
+        fclose($fp);
         return print_r(json_decode($json, true));
+      }
+
+      public function setPrimerFeedbackJefe($json){
+       require_once('lib/model/SQL.php');
+        http_response_code(200);
+        $fp = fopen(LOGLOCAL, 'a+');
+        fwrite($fp, 'setPrimerFeedbackJefe.../n');
+        fwrite($fp,$json);
+        fwrite($fp,"-------------------------fin---setPrimerFeedbackJefe--------/n");
+        fclose($fp);
+        return print_r(json_decode($json, true)); 
       }
 
 

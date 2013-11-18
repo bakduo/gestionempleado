@@ -59,6 +59,8 @@ $app->router()->mapCustom('/saveObjetivos',$enabled);
 $app->router()->mapCustom('/saveTargets',$enabled);
 $app->router()->mapCustom('/saveJusticaEmpleado',$enabled);
 $app->router()->mapCustom('/sendFeedback',$enabled);
+$app->router()->mapCustom('/saveRespuestaJefe',$enabled);
+
 
 //fin mapeos para las consultas de los hoteles
 
@@ -134,6 +136,16 @@ if ($route){
         if ($parametros){
             $r = new Rrhh();
             echo $r->setFeedbackEmpleado($parametros['json']);
+        }else{
+            echo "Error";   
+        }
+        break;
+    case '/saveRespuestaJefe':
+        require 'controller/rrhh.php';
+        $parametros=$app->request()->data;
+        if ($parametros){
+            $r = new Rrhh();
+            echo $r->setPrimerFeedbackJefe($parametros['json']);
         }else{
             echo "Error";   
         }
