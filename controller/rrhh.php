@@ -130,7 +130,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        $j = json_decode($json)
+        $j = json_decode($json);
         for ($i=0; $i < sizeof($j) ; $i++) { 
           $test= QuerySQL::getInstance();
           $test->setSQL("select objetivo from objetivos where descripcion = '".$j[$i]->objetivo."'");
