@@ -145,6 +145,10 @@ where e.puesto = o.puesto and e.empleado=".$id;
         fwrite($fp,"-------------------------fin---target---------/n");
         fclose($fp);
         return print_r(json_decode($json, true));
+
+        //$myArray = print_r(json_decode($json, true));
+        //$i = $myArray.lenght();
+        //return $i;
         //return print_r($_POST);
       }
 
