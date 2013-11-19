@@ -132,6 +132,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
         require_once('lib/model/SQL.php');
         //$json = '[{"objetivo":"tres","empleado":"12","target":"Sin target"},{"objetivo":"Mantener una adecuada y oportuna comunicación con los\/as usuarios\/as para canalizar los requerimientos de información en las diferentes áreas.\\r","empleado":"12","target":"Sin target"},{"objetivo":"Testear los programas elaborados para eliminar o corregir deficiencias o errores.\\r","empleado":"12","target":"Sin target"},{"objetivo":"uno","empleado":"12","target":"Sin target"},{"objetivo":"dos","empleado":"12","target":"Sin target"}]';
         $j = json_decode($json);
+        /*
         for ($i=0; $i < sizeof($j) ; $i++) { 
           $test= QuerySQL::getInstance();
           $test->setSQL("select objetivo from objetivos where descripcion = '".$j[$i]->objetivo."'");
@@ -152,6 +153,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
           $test->setSQL("insert into objetivos_targets_empleado (objetivo_id, empleado_id, target) VALUES(".$objetivo_id.",".$j[$i]->empleado.",'".$j[$i]->target."')");
           $test->excuteSQL();
         }
+        */
       }
 
       public function setJustificaEmpleado($json){
@@ -159,29 +161,34 @@ where e.puesto = o.puesto and e.empleado=".$id;
         //$json = '{"periodo":"2013-11-19","empleado":"12","respuestafeedback":"esta seria la justificacion del empleado"}';
         $j = json_decode($json);
 
+        /*
         $test= QuerySQL::getInstance();
         $test->setSQL("insert into justificacion_empleados ( empleado_id,periodo,respuesta_feedback ) values( ".$j->empleado.", '".$j->periodo."', '".$j->respuestafeedback."' ) ");
         $result=$test->excuteSQL();
+        */
       }
 
       public function setMensajeInicialDelJefe($json){
         require_once('lib/model/SQL.php');
         //$json = '{"periodo":"2013-11-19","empleado":"12","descripcion":"esta es la descripcion del estado inicial"}';
         $j = json_decode($json);
-
+        /*
         $test= QuerySQL::getInstance();
         $test->setSQL("insert into informe_empleados (empleado_id,periodo,descripcion_inicial) values( ".$j->empleado.", '".$j->periodo."', '".$j->descripcion."' ) ");
         $result=$test->excuteSQL();
+        */
       }
 
       public function setMensajeFinalDelJefe($json){
         require_once('lib/model/SQL.php');
-        $json = '{"periodo":"2013-11-19","empleado":"12","descripcion":"esta es la descripcion del estado final"}';
+        //$json = '{"periodo":"2013-11-19","empleado":"12","descripcion":"esta es la descripcion del estado final"}';
         $j = json_decode($json);
 
+        /*
         $test= QuerySQL::getInstance();
         $test->setSQL("update informe_empleados set descripcion_final =  '".$j->descripcion."' where empleado_id = ".$j->empleado." and periodo = '".$j->periodo."' ");
         $result=$test->excuteSQL();
+        */
       }
 
 
