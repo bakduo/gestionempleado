@@ -130,37 +130,27 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-
-        //$fp = fopen(LOGLOCAL,'a+');
-        //fwrite($fp, 'setTargets.../n');
-        //fwrite($fp,$json);
-        
-        //Tomo el json desde data que me envian lo pasa a array convencional
-        $j = json_decode($json);
-        
-        /*
-        fwrite($fp, '#############/n');
-        fwrite($fp, '#############/n');
-        fwrite($fp,$j);
-        fwrite($fp,"-------------------------fin---setTargets---------/n");
-        fclose($fp);
-        */
-        //return print_r(json_decode($json, true));
-        
-
-        /*
-        for ($i=0; $i <sizeof($j) ; $i++) { 
-          $sql = "select objetivo from objetivos where descripcion = '".$j[$i]->objetivo."'";
-          print_r($sql);
-          echo "<br></br>";
+        $j = json_decode($json)
+        for ($i=0; $i < sizeof($j) ; $i++) { 
           $test= QuerySQL::getInstance();
-          $test->setSQL($sql);
+          $test->setSQL("select objetivo from objetivos where descripcion = '".$j[$i]->objetivo."'");
           $record=$test->excuteSQL();
-          print_r($record);
+          if($record == ''){
+            $test= QuerySQL::getInstance();
+            $test->setSQL("select count(*) from objetivos");
+            $cant=$test->excuteSQL();
+            $cant = $cant[0] + 1;
+            $test= QuerySQL::getInstance();
+            $test->setSQL("insert into objetivos (objetivo, descripcion) VALUES(".$cant.",'".$j[$i]->objetivo."')");
+            $obj=$test->excuteSQL();
+            $objetivo_id = $cant;
+          }else{
+            $objetivo_id = $record[0]; 
+          }
+          $test= QuerySQL::getInstance();
+          $test->setSQL("insert into objetivos_targets_empleado (objetivo_id, empleado_id, target, justificacion) VALUES(".$objetivo_id.",".$j[$i]->empleado.",'".$j[$i]->target."',NULL)");
+          $test->excuteSQL();
         }
-        */
-        //testing que funca......
-        return "---------------------". $j[1]->objetivo. "---------------------";
       }
 
       public function setJustificaEmpleado($json){
