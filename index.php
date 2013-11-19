@@ -54,12 +54,17 @@ $app->router()->mapCustom('/poempleado/@id:[0-9]+',$enabled);
 $app->router()->mapCustom('/oempleado/@id:[0-9]+',$enabled);
 $app->router()->mapCustom('/empleado/@id:[0-9]+',$enabled);
 $app->router()->mapCustom('/empleados/',$enabled);
-$app->router()->mapCustom('/saveEmpleado',$enabled);
-$app->router()->mapCustom('/saveObjetivos',$enabled);
 $app->router()->mapCustom('/saveTargets',$enabled);
-$app->router()->mapCustom('/saveJusticaEmpleado',$enabled);
-$app->router()->mapCustom('/sendFeedback',$enabled);
+$app->router()->mapCustom('/saveJustificaEmpleado',$enabled);
+$app->router()->mapCustom('/saveMensajeInicialDelJefe',$enabled);
+$app->router()->mapCustom('/saveMensajeFinalDelJefe',$enabled);
+
+
+$app->router()->mapCustom('/saveObjetivos',$enabled);
 $app->router()->mapCustom('/saveRespuestaJefe',$enabled);
+
+$app->router()->mapCustom('/saveEmpleado',$enabled);
+
 
 
 //fin mapeos para las consultas de los hoteles
@@ -114,7 +119,7 @@ if ($route){
         }
         
         break;
-    case '/saveJusticaEmpleado':
+    case '/saveJustificaEmpleado':
         require 'controller/rrhh.php';
         $parametros=$app->request()->data;
         if ($parametros){
@@ -124,22 +129,22 @@ if ($route){
             echo "Error";
         }
         break;
-    case '/sendFeedback':
+    case '/saveMensajeInicialDelJefe':
         require 'controller/rrhh.php';
         $parametros=$app->request()->data;
         if ($parametros){
             $r = new Rrhh();
-            echo $r->setFeedbackEmpleado($parametros['json']);
+            echo $r->setMensajeInicialDelJefe($parametros['json']);
         }else{
             echo "Error";   
         }
         break;
-    case '/saveRespuestaJefe':
+    case '/saveMensajeFinalDelJefe':
         require 'controller/rrhh.php';
         $parametros=$app->request()->data;
         if ($parametros){
             $r = new Rrhh();
-            echo $r->setPrimerFeedbackJefe($parametros['json']);
+            echo $r->setMensajeFinalDelJefe($parametros['json']);
         }else{
             echo "Error";   
         }
