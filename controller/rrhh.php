@@ -130,7 +130,19 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        $j = json_decode($json);
+        $fp = fopen(LOGLOCAL,'a+');
+        fwrite($fp, 'setTargets.../n');
+        fwrite($fp,$json);
+        
+        $j = json_decode((string)$json);
+        
+        
+        fwrite($fp, '#############/n');
+        fwrite($fp, '#############/n');
+        fwrite($fp,$j);
+        fwrite($fp,"-------------------------fin---setTargets---------/n");
+        fclose($fp);
+
         echo "<<<<<<<<<<<<<<<<<<<<<<";
         echo "<<<<<<<<<<<<<<<<<<<<<<";
         echo "<<<<<<<<<<<<<<<<<<<<<<";
@@ -141,6 +153,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
         echo ">>>>>>>>>>>>>>>>>>>>>>";
         die("putooo");
         
+
         echo "<pre>";
         print_r($j);
 
