@@ -1,10 +1,32 @@
-SaveTargets.../n[{"objetivo":"Testear los programas elaborados para eliminar o corregir deficiencias o errores.\r","empleado":"1","target":"test"},{"objetivo":"Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.\r","empleado":"2","target":"test"},{"objetivo":"probando","empleado":"3","target":"test"}]Testear los programas elaborados para eliminar o corregir deficiencias o errores.
+SaveTargets...\n[{"objetivo":"Testear los programas elaborados para eliminar o corregir deficiencias o errores.","empleado":"1","target":"test"},{"objetivo":"Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.","empleado":"2","target":"test"},{"objetivo":"probando","empleado":"3","target":"test"}]
+Testear los programas elaborados para eliminar o corregir deficiencias o errores.
+
 1
+
 test
-Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.
+
+Debug busqueda sql : select objetivo 
+            from objetivos
+            where descripcion = 'Testear los programas elaborados para eliminar o corregir deficiencias o errores.'
+Debug busqueda: 1
+Encontrado objetido: Testear los programas elaborados para eliminar o corregir deficiencias o errores.Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.
+
 2
+
 test
-probando
+
+Debug busqueda sql : select objetivo 
+            from objetivos
+            where descripcion = 'Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.'
+Debug busqueda: 1
+Encontrado objetido: Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.probando
+
 3
+
 test
--------------------------fin---target---------/n
+
+Debug busqueda sql : select objetivo 
+            from objetivos
+            where descripcion = 'probando'
+Debug busqueda: 1
+No Encontrado objetido: probando-------------------------fin---target---------

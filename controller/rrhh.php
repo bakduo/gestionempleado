@@ -130,57 +130,62 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        //$json = '[{"objetivo":"tres","empleado":"12","target":"Sin target"},{"objetivo":"Mantener una adecuada y oportuna comunicación con los\/as usuarios\/as para canalizar los requerimientos de información en las diferentes áreas.\\r","empleado":"12","target":"Sin target"},{"objetivo":"Testear los programas elaborados para eliminar o corregir deficiencias o errores.\\r","empleado":"12","target":"Sin target"},{"objetivo":"uno","empleado":"12","target":"Sin target"},{"objetivo":"dos","empleado":"12","target":"Sin target"}]';
+        
         $j = json_decode($json);
-
-        //echo print_r($j);
 
         $total = count($j);
         
-        $fp = fopen(LOGLOCAL, 'w');
-        fwrite($fp, 'SaveTargets.../n');
-        fwrite($fp,$json);
-
-        //$valor = (String)$j[1]->objetivo;
-        //fwrite($fp,"Elemento 0: ".$valor);
+        //$fp = fopen(LOGLOCAL, 'w');
+        //fwrite($fp, 'SaveTargets...\n');
+        //fwrite($fp,$json."\n");
 
         for ($i=0; $i < $total ; $i++) { 
           $record=$j[$i];
+          
+          /*
           echo $record->objetivo;
-          fwrite($fp,(string)$record->objetivo);
+          fwrite($fp,(string)$record->objetivo."\n");
           fwrite($fp, "\n");
           echo $record->empleado;
-          fwrite($fp,(string)$record->empleado);
+          fwrite($fp,(string)$record->empleado."\n");
           fwrite($fp,"\n");
           echo $record->target;
-          fwrite($fp,(string)$record->target);
+          fwrite($fp,(string)$record->target."\n");
           fwrite($fp,"\n");
-          echo "\n";
-          //echo $j[$i]->objetivo;
-          //echo $j[$i]->empleado;
-          //echo $j[$i]->target;
+          */
+          
           $test= QuerySQL::getInstance();
-          $test->setSQL("select objetivo from objetivos where descripcion = '".$record->objetivo."'");
+
+          $sql="select objetivo 
+            from objetivos
+            where descripcion = '".(string)$record->objetivo."'";
+          //fwrite($fp,"Debug busqueda sql : ".$sql."\n");
+          $test->setSQL($sql);
+
           $objetivo_buscado=$test->excuteSQL();
 
-          if(!$objetivo_buscado){
-            $test= QuerySQL::getInstance();
+          //fwrite($fp,"Debug busqueda: ".print_r($objetivo_buscado)."\n");
+
+          if($objetivo_buscado==false){
+            //fwrite($fp,"No Encontrado objetido: ".$record->objetivo);
+            //$test= QuerySQL::getInstance();
             $test->setSQL("select count(*) as cantidad from objetivos");
             $cantidad=$test->excuteSQL();
             $cant = $cantidad[0] + 1;
-            $test= QuerySQL::getInstance();
+            //$test= QuerySQL::getInstance();
             $test->setSQL("insert into objetivos (objetivo, descripcion) VALUES(".$cant.",'".$record->objetivo."')");
             $obj=$test->excuteSQL();
             $objetivo_id = $cant;
           }else{
+            //fwrite($fp,"Encontrado objetido: ".$record->objetivo);
             $objetivo_id = $objetivo_buscado[0];
           }
-          $test= QuerySQL::getInstance();
+          //$test= QuerySQL::getInstance();
           $test->setSQL("insert into objetivos_targets_empleado (objetivo_id, empleado_id, target) VALUES(".$objetivo_id.",".$record->empleado.",'".$record->target."')");
-          $test->excuteSQL();      
+          $test->excuteSQL();
         }
-        fwrite($fp,"-------------------------fin---target---------/n");
-        fclose($fp);
+        //fwrite($fp,"-------------------------fin---target---------\n");
+        //fclose($fp);
       }
 
       public function setJustificaEmpleado($json){
