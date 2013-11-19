@@ -166,7 +166,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setMensajeInicialDelJefe($json){
         require_once('lib/model/SQL.php');
-        $json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado inicial", "estado":"false"}';
+        //$json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado inicial", "estado":"false"}';
         $j = json_decode($json);
 
         $test= QuerySQL::getInstance();
@@ -176,7 +176,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setMensajeFinalDelJefe($json){
         require_once('lib/model/SQL.php');
-        $json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado final", "estado":"true"}';
+        //$json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado final", "estado":"true"}';
         $j = json_decode($json);
         
         $test= QuerySQL::getInstance();
