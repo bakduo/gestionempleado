@@ -130,41 +130,25 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        $fp = fopen(LOGLOCAL,'a+');
-        fwrite($fp, 'setTargets.../n');
-        fwrite($fp,$json);
+
+        //$fp = fopen(LOGLOCAL,'a+');
+        //fwrite($fp, 'setTargets.../n');
+        //fwrite($fp,$json);
         
-        $j = json_decode((string)$json);
+        //Tomo el json desde data que me envian lo pasa a array convencional
+        $j = json_decode($json);
         
-        
+        /*
         fwrite($fp, '#############/n');
         fwrite($fp, '#############/n');
         fwrite($fp,$j);
         fwrite($fp,"-------------------------fin---setTargets---------/n");
         fclose($fp);
-<<<<<<< HEAD
-        return print_r(json_decode($json, true));
-
-        //$myArray = print_r(json_decode($json, true));
-        //$i = $myArray.lenght();
-        //return $i;
-        //return print_r($_POST);
-=======
-
-        echo "<<<<<<<<<<<<<<<<<<<<<<";
-        echo "<<<<<<<<<<<<<<<<<<<<<<";
-        echo "<<<<<<<<<<<<<<<<<<<<<<";
-        print_r($j);
-        echo "<br></br>";
-        echo ">>>>>>>>>>>>>>>>>>>>>>";
-        echo ">>>>>>>>>>>>>>>>>>>>>>";
-        echo ">>>>>>>>>>>>>>>>>>>>>>";
-        die("putooo");
+        */
+        //return print_r(json_decode($json, true));
         
 
-        echo "<pre>";
-        print_r($j);
-
+        /*
         for ($i=0; $i <sizeof($j) ; $i++) { 
           $sql = "select objetivo from objetivos where descripcion = '".$j[$i]->objetivo."'";
           print_r($sql);
@@ -174,10 +158,9 @@ where e.puesto = o.puesto and e.empleado=".$id;
           $record=$test->excuteSQL();
           print_r($record);
         }
-        
-        die("");
-        
->>>>>>> b65220ebcf4c467ba41cb7f471d9605d0cdd9a75
+        */
+        //testing que funca......
+        return "---------------------". $j[1]->objetivo. "---------------------";
       }
 
       public function setJustificaEmpleado($json){
