@@ -166,21 +166,23 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setMensajeInicialDelJefe($json){
         require_once('lib/model/SQL.php');
-        //$json = '{"periodo":"2013-11-19","empleado":"12","descripcion":"esta es la descripcion del estado inicial"}';
+        $json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado inicial", "estado":"false"}';
         $j = json_decode($json);
 
         $test= QuerySQL::getInstance();
-        $test->setSQL("insert into informe_empleados (empleado_id,periodo,descripcion_inicial) values( ".$j->empleado.", '".$j->periodo."', '".$j->descripcion."' ) ");
+        $test->setSQL("insert into informe_empleados (empleado_id,periodo,descripcion_inicial,estado_inicial) values( ".$j->empleado.", '".$j->periodo."', '".$j->descripcion."', ".$j->estado.") ");
         $result=$test->excuteSQL();
       }
 
       public function setMensajeFinalDelJefe($json){
         require_once('lib/model/SQL.php');
-        $json = '{"periodo":"2013-11-19","empleado":"12","descripcion":"esta es la descripcion del estado final"}';
+        $json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado final", "estado":"true"}';
         $j = json_decode($json);
-
+        
         $test= QuerySQL::getInstance();
-        $test->setSQL("update informe_empleados set descripcion_final =  '".$j->descripcion."' where empleado_id = ".$j->empleado." and periodo = '".$j->periodo."' ");
+        $q = "update informe_empleados set descripcion_final='".$j->descripcion."', estado_final=".$j->estado."  where empleado_id=".$j->empleado." and periodo='".$j->periodo."'";
+        $test->setSQL("update informe_empleados set descripcion_final='".$j->descripcion."', estado_final=".$j->estado."  where empleado_id=".$j->empleado." and periodo='".$j->periodo."'");
+        
         $result=$test->excuteSQL();
       }
 
