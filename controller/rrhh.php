@@ -129,19 +129,20 @@ where e.puesto = o.puesto and e.empleado=".$id;
        }
 
       public function setTargets($json){
+
         require_once('lib/model/SQL.php');
 
         $j = json_decode($json);
+        $test= QuerySQL::getInstance();
 
         $total = count($j);
         
-        //$fp = fopen(LOGLOCAL, 'w');
-        //fwrite($fp, 'SaveTargets...\n');
-        //fwrite($fp,$json."\n");
+        $fp = fopen(LOGLOCAL, 'w');
+        fwrite($fp, 'SaveTargets...\n');
+        fwrite($fp,$json."\n");
 
         for ($i=0; $i < $total ; $i++) { 
-          $record=$j[$i];
-          
+          $record=$j[$i];  
           /*
           echo $record->objetivo;
           fwrite($fp,(string)$record->objetivo."\n");
@@ -152,40 +153,54 @@ where e.puesto = o.puesto and e.empleado=".$id;
           echo $record->target;
           fwrite($fp,(string)$record->target."\n");
           fwrite($fp,"\n");
+          fwrite($fp,"Debug busqueda sql : ".$sql."\n");
           */
           
-          $test= QuerySQL::getInstance();
-
           $sql="select objetivo 
             from objetivos
-            where descripcion = '".(string)$record->objetivo."'";
-          //fwrite($fp,"Debug busqueda sql : ".$sql."\n");
+            where descripcion = '".$record->objetivo."'";
           $test->setSQL($sql);
-
           $objetivo_buscado=$test->excuteSQL();
 
           //fwrite($fp,"Debug busqueda: ".print_r($objetivo_buscado)."\n");
-
+          $update=false;
           if($objetivo_buscado==false){
-            //fwrite($fp,"No Encontrado objetido: ".$record->objetivo);
-            //$test= QuerySQL::getInstance();
+            fwrite($fp,"No Encontrado objetido: ".$record->objetivo);
             $test->setSQL("select count(*) as cantidad from objetivos");
             $cantidad=$test->excuteSQL();
             $cant = $cantidad[0] + 1;
-            //$test= QuerySQL::getInstance();
             $test->setSQL("insert into objetivos (objetivo, descripcion) VALUES(".$cant.",'".$record->objetivo."')");
             $obj=$test->excuteSQL();
             $objetivo_id = $cant;
           }else{
-            //fwrite($fp,"Encontrado objetido: ".$record->objetivo);
+            //Ahora buscamos si existe el objetivo con el id
+            fwrite($fp,"Encontrado objetido: ".$record->objetivo);
             $objetivo_id = $objetivo_buscado[0];
+            $sql="select empleado_id 
+            from objetivos_targets_empleado
+            where empleado_id = ".$record->empleado." and objetivo_id=".$objetivo_id;
+            fwrite($fp,"Debug sql: ".$sql."\n");
+            $test->setSQL($sql);
+            $encontrado=$test->excuteSQL();
+            $valor = var_dump($encontrado);
+            fwrite($fp,"Debug update: ".$valor."\n");
+            if ($encontrado!=false){
+                $update=true;
+            }
           }
-          //$test= QuerySQL::getInstance();
-          $test->setSQL("insert into objetivos_targets_empleado (objetivo_id, empleado_id, target) VALUES(".$objetivo_id.",".$record->empleado.",'".$record->target."')");
-          $test->excuteSQL();
+          if ($update==false){
+            $sql="insert into objetivos_targets_empleado (objetivo_id, empleado_id, target) VALUES(".$objetivo_id.",".$record->empleado.",'".$record->target."')";
+            $test->setSQL($sql);
+            $test->excuteSQL();
+          }else{
+            $sql = "update objetivos_targets_empleado set target='".$record->target."' where empleado_id=".$record->empleado." and objetivo_id=".$objetivo_id;     
+            $test->setSQL($sql);
+            $test->excuteSQL();
+            fwrite($fp,"Actualizando record: \n");
+          }
         }
-        //fwrite($fp,"-------------------------fin---target---------\n");
-        //fclose($fp);
+        fwrite($fp,"-------------------------fin---target---------\n");
+        fclose($fp);
       }
 
       public function setJustificaEmpleado($json){

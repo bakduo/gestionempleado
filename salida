@@ -1,2 +1,17 @@
-justificacion final jefe\n[{"estado":"true","empleado":"1","descripcion":"algo","periodo":"Tue Nov 19 21:22:42 ART 2013"}]
-update informe_empleados set descripcion_final='algo', estado_final='T'  where empleado_id=1 and periodo='Tue Nov 19 21:22:42 ART 2013'
+SaveTargets...\n[{"objetivo":"Testear los programas elaborados para eliminar o corregir deficiencias o errores.","empleado":"1","target":"test"},{"objetivo":"Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.","empleado":"2","target":"test"},{"objetivo":"probando","empleado":"3","target":"test"}]
+Encontrado objetido: Testear los programas elaborados para eliminar o corregir deficiencias o errores.Debug sql: select empleado_id 
+            from objetivos_targets_empleado
+            where empleado_id = 1 and objetivo_id=90
+Debug update: 
+Actualizando record: 
+Encontrado objetido: Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.Debug sql: select empleado_id 
+            from objetivos_targets_empleado
+            where empleado_id = 2 and objetivo_id=92
+Debug update: 
+Actualizando record: 
+Encontrado objetido: probandoDebug sql: select empleado_id 
+            from objetivos_targets_empleado
+            where empleado_id = 3 and objetivo_id=98
+Debug update: 
+Actualizando record: 
+-------------------------fin---target---------
