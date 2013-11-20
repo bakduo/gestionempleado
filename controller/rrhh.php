@@ -130,7 +130,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
 
       public function setTargets($json){
         require_once('lib/model/SQL.php');
-        
+
         $j = json_decode($json);
 
         $total = count($j);
@@ -193,37 +193,69 @@ where e.puesto = o.puesto and e.empleado=".$id;
         //$json = '{"periodo":"2013-11-19","empleado":"12","respuestafeedback":"esta seria la justificacion del empleado"}';
         $j = json_decode($json);
 
-        
+        /**
+        *Debug para justificacion
+        **/
+        $fp = fopen(LOGLOCAL, 'w');
+        fwrite($fp, 'justificacion\n');
+        fwrite($fp,$json."\n");
+        fclose($fp);
+        $record=$j[0];
         $test= QuerySQL::getInstance();
-        $test->setSQL("insert into justificacion_empleados ( empleado_id,periodo,respuesta_feedback ) values( ".$j->empleado.", '".$j->periodo."', '".$j->respuestafeedback."' ) ");
+        $test->setSQL("insert into justificacion_empleados ( empleado_id,periodo,respuesta_feedback ) values( ".$record->empleado.", '".$record->periodo."', '".$record->respuestafeedback."' ) ");
         $result=$test->excuteSQL();
         
       }
 
       public function setMensajeInicialDelJefe($json){
         require_once('lib/model/SQL.php');
-        //$json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado inicial", "estado":"false"}';
         $j = json_decode($json);
+         /**
+        *Debug para justificacion
+        **/
+        $fp = fopen(LOGLOCAL, 'w');
+        fwrite($fp, 'justificacion inicial jefe\n');
+        fwrite($fp,$json."\n");
         
+        $record=$j[0];
+        if ($record->estado=='true'){
+           $estado_msj='T';
+        }else{
+          $estado_msj='F';
+        }
         $test= QuerySQL::getInstance();
-        $test->setSQL("insert into informe_empleados (empleado_id,periodo,descripcion_inicial,estado_inicial) values( ".$j->empleado.", '".$j->periodo."', '".$j->descripcion."', ".$j->estado.") ");
+        $sql="insert into informe_empleados 
+        (empleado_id,periodo,estado_inicial,estado_final,descripcion_inicial,descripcion_final) 
+        values( ".$record->empleado.", '".$record->periodo."', '".$estado_msj."','','".$record->descripcion."','')";
+        fwrite($fp,$sql."\n");
+        $test->setSQL($sql);        
         $result=$test->excuteSQL();
-        
+        fclose($fp);
       }
 
       public function setMensajeFinalDelJefe($json){
         require_once('lib/model/SQL.php');
-
-        //$json = '{"periodo":"2013-11-19","empleado":"12","descripcion":"esta es la descripcion del estado final"}';
-        $j = json_decode($json);
-
         //$json = '{"periodo":"2013-11-19","empleado":"10","descripcion":"esta es la descripcion del estado final", "estado":"true"}';
         $j = json_decode($json);
-        $test= QuerySQL::getInstance();
-        $q = "update informe_empleados set descripcion_final='".$j->descripcion."', estado_final=".$j->estado."  where empleado_id=".$j->empleado." and periodo='".$j->periodo."'";
-        $test->setSQL("update informe_empleados set descripcion_final='".$j->descripcion."', estado_final=".$j->estado."  where empleado_id=".$j->empleado." and periodo='".$j->periodo."'");
+
+        $fp = fopen(LOGLOCAL, 'w');
+        fwrite($fp, 'justificacion final jefe\n');
+        fwrite($fp,$json."\n");
         
+        $record=$j[0];
+        if ($record->estado=='true'){
+           $estado_msj='T';
+        }else{
+          $estado_msj='F';
+        }
+
+        $test= QuerySQL::getInstance();
+        $sql = "update informe_empleados set descripcion_final='".$record->descripcion."', estado_final='".$estado_msj."'  where empleado_id=".$record->empleado." and periodo='".$record->periodo."'";
+        $test->setSQL($sql);
+        fwrite($fp,$sql."\n");
+        fclose($fp);
         $result=$test->excuteSQL();
+
       }
 
 
