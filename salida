@@ -1,17 +1,16 @@
-SaveTargets...\n[{"objetivo":"Testear los programas elaborados para eliminar o corregir deficiencias o errores.","empleado":"1","target":"test"},{"objetivo":"Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.","empleado":"2","target":"test"},{"objetivo":"probando","empleado":"3","target":"test"}]
-Encontrado objetido: Testear los programas elaborados para eliminar o corregir deficiencias o errores.Debug sql: select empleado_id 
-            from objetivos_targets_empleado
-            where empleado_id = 1 and objetivo_id=90
-Debug update: 
-Actualizando record: 
-Encontrado objetido: Planificación, análisis, revisión e implementación de políticas de auditorias de  seguridad informática.Debug sql: select empleado_id 
-            from objetivos_targets_empleado
-            where empleado_id = 2 and objetivo_id=92
-Debug update: 
-Actualizando record: 
-Encontrado objetido: probandoDebug sql: select empleado_id 
-            from objetivos_targets_empleado
-            where empleado_id = 3 and objetivo_id=98
-Debug update: 
-Actualizando record: 
--------------------------fin---target---------
+Promocion jefe\n[{"empleado":"22-35958878-8","puesto":"1","sueldo":"6586","periodo":"Proximo a : 10"},{"empleado":"22-24666888-0","puesto":"7","sueldo":"0","periodo":"Proximo a : 10"},{"empleado":"22-35415890-8","puesto":"6","sueldo":"8107","periodo":"Proximo a : 10"},{"empleado":"22-22444777-8","puesto":"0","sueldo":"9710","periodo":"Proximo a : 10"},{"empleado":"23-27888999-7","puesto":"0","sueldo":"9995","periodo":"Proximo a : 10"}]
+insert into promocion_empleados
+        (empleado_cuit,periodo,puesto,sueldo) 
+        values( '22-35958878-8', 'Proximo a : 10',1,6586)
+insert into promocion_empleados
+        (empleado_cuit,periodo,puesto,sueldo) 
+        values( '22-24666888-0', 'Proximo a : 10',7,0)
+insert into promocion_empleados
+        (empleado_cuit,periodo,puesto,sueldo) 
+        values( '22-35415890-8', 'Proximo a : 10',6,8107)
+insert into promocion_empleados
+        (empleado_cuit,periodo,puesto,sueldo) 
+        values( '22-22444777-8', 'Proximo a : 10',0,9710)
+insert into promocion_empleados
+        (empleado_cuit,periodo,puesto,sueldo) 
+        values( '23-27888999-7', 'Proximo a : 10',0,9995)

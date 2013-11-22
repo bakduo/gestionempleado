@@ -49,10 +49,10 @@ $app->register('router', '\flight\net\CustomRouter');
 //Mapeos para las consultas de rrhh
 
 $app->router()->mapCustom('/objetivos/',$enabled);
-$app->router()->mapCustom('/poempleadoid/@id:[0-9]+',$enabled);
-$app->router()->mapCustom('/poempleado/@id:[0-9]+',$enabled);
-$app->router()->mapCustom('/oempleado/@id:[0-9]+',$enabled);
-$app->router()->mapCustom('/empleado/@id:[0-9]+',$enabled);
+$app->router()->mapCustom('/poempleadoid/@id:[0-9-]+',$enabled);
+$app->router()->mapCustom('/poempleado/@id:[0-9-]+',$enabled);
+$app->router()->mapCustom('/oempleado/@id:[0-9-]+',$enabled);
+$app->router()->mapCustom('/empleado/@id:[0-9-]+',$enabled);
 $app->router()->mapCustom('/empleados/',$enabled);
 $app->router()->mapCustom('/saveTargets',$enabled);
 $app->router()->mapCustom('/saveJustificaEmpleado',$enabled);
@@ -62,6 +62,7 @@ $app->router()->mapCustom('/saveMensajeFinalDelJefe',$enabled);
 
 $app->router()->mapCustom('/saveObjetivos',$enabled);
 $app->router()->mapCustom('/saveRespuestaJefe',$enabled);
+$app->router()->mapCustom('/savePromociones',$enabled);
 
 $app->router()->mapCustom('/saveEmpleado',$enabled);
 
@@ -84,25 +85,25 @@ if ($route){
         $r=new Rrhh();
         echo $r->getObjetivosJson();
         break;
-    case '/empleado/@id:[0-9]+':
+    case '/empleado/@id:[0-9-]+':
         require 'controller/rrhh.php';
         $r=new Rrhh();
         $parametros=$route->getParams();
         echo $r->getEmpleadoJson($parametros['id']);
         break;
-    case '/poempleadoid/@id:[0-9]+':
+    case '/poempleadoid/@id:[0-9-]+':
         require 'controller/rrhh.php';
         $r=new Rrhh();
         $parametros=$route->getParams();
         echo $r->getPoEmpleadoIdJson($parametros['id']);
         break;
-    case '/poempleado/@id:[0-9]+':
+    case '/poempleado/@id:[0-9-]+':
         require 'controller/rrhh.php';
         $r=new Rrhh();
         $parametros=$route->getParams();
         echo $r->getPoEmpleadoDescJson($parametros['id']);
         break;
-    case '/oempleado/@id:[0-9]+':
+    case '/oempleado/@id:[0-9-]+':
         require 'controller/rrhh.php';
         $r=new Rrhh();
         $parametros=$route->getParams();
@@ -149,6 +150,17 @@ if ($route){
             echo "Error";   
         }
         break;
+    case '/savePromociones':
+        require 'controller/rrhh.php';
+        $parametros=$app->request()->data;
+        if ($parametros){
+            $r = new Rrhh();
+            echo $r->setPromocionesJefe($parametros['json']);
+        }else{
+            echo "Error";   
+        }
+        break;
+
     }
 }else{
 	echo "Don't Worry about that";

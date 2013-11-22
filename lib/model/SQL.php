@@ -27,9 +27,18 @@ class PGCustom
 
   private $link=NULL;
   private $q=NULL;
+  private $dsn = "";
 
   public function connect(){
-  	$this->link = pg_Connect(DSN);
+  	$this->link = pg_Connect($this->getDSN());
+  }
+
+  public function setDSN($dsn){
+    $this->dsn=$dsn;
+  }
+
+  private function getDSN(){
+    return $this->dsn;
   }
 
   public function returnByJson($sql){
@@ -98,6 +107,10 @@ class QuerySQL {
 	    $this->sql="";
 	    $this->pg=new PGCustom();
 	}
+
+  public function setDSN($dsn){
+    $this->pg->setDSN($dsn);
+  }
 	
 	public static function getInstance() {
 
@@ -151,18 +164,6 @@ class QuerySQL {
     	$result=$this->pg->returnByResult($this->sql);
     	$this->pg->close();
     	return $result;
-    	
-    	/*
-	   include ('lib/adodb5/link.php');
-
-       try { 
-			$record= $db->Execute($this->sql);
-			return $record;
-		} catch (exception $e) { 
-		    var_dump($e); 
-		    adodb_backtrace($e->gettrace());
-	    } 
-	    */
     }
 
     public function getAssoc(){
@@ -170,16 +171,6 @@ class QuerySQL {
     	$result=$this->pg->retornAll($this->sql);
     	$this->pg->close();
     	return $result;
-    	/*
-       include ('lib/adodb5/link.php');
-       try { 
-			$record= $db->GetAssoc($this->sql);
-			return $record;
-		} catch (exception $e) { 
-		    var_dump($e); 
-		    adodb_backtrace($e->gettrace());
-	    }
-	    */
     }
 
     public function getAll(){
@@ -187,16 +178,6 @@ class QuerySQL {
     	$result=$this->pg->retornByAll($this->sql);
     	$this->pg->close();
     	return $result;
-    /*	
-      include ('lib/adodb5/link.php');
-       try { 
-			$record= $db->GetAll($this->sql);
-			return $record;
-		} catch (exception $e) { 
-		    var_dump($e); 
-		    adodb_backtrace($e->gettrace());
-	    }	
-	  */
     }
 
     public function getJson(){
@@ -205,15 +186,6 @@ class QuerySQL {
     	$this->pg->close();
     	//return $result;
     	return json_encode($result);
-    	/*
-       include ('lib/adodb5/link.php');
-       try {
-			  return json_encode($db->GetAll($this->sql));
-		   }catch (exception $e) { 
-		    var_dump($e); 
-		    adodb_backtrace($e->gettrace());
-	    }
-	    */	
     }
 		
 }

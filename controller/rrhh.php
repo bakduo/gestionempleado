@@ -45,9 +45,10 @@ class Rrhh
        public function getEmpleadoJson($id){
         require_once('lib/model/SQL.php');
         $test= QuerySQL::getInstance();
+        $this->setDSN(DSN);
         $sql="select *
         from empleados
-        where empleado = ".$id;
+        where cuit = ".$id;
         $test->setSQL($sql);
         return $test->getJson();
        }
@@ -55,9 +56,10 @@ class Rrhh
        public function getPoEmpleadoJson($id){
         require_once('lib/model/SQL.php');
         $test= QuerySQL::getInstance();
+        $this->setDSN(DSN);
         $sql="select o.puesto,o.objetivo
 from empleados e , objetivospuestos o
-where e.puesto = o.puesto and e.empleado=".$id;
+where e.puesto = o.puesto and e.cuit='".$id."'";
         $test->setSQL($sql);
         return $test->getJson();
        }
@@ -67,7 +69,8 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $test= QuerySQL::getInstance();
         $sql="select (select descripcion from puestos where puesto = o.puesto) as puesto,(select descripcion from objetivos where objetivo = o.objetivo) as objetivo
 from empleados e , objetivospuestos o
-where e.puesto = o.puesto and e.empleado=".$id;
+where e.puesto = o.puesto and e.cuit='".$id."'";
+        $this->setDSN(DSN);
         $test->setSQL($sql);
         return $test->getJson();
        }
@@ -77,7 +80,8 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $test= QuerySQL::getInstance();
         $sql="select o.puesto,(select descripcion from objetivos where objetivo = o.objetivo) as objetivo
         from empleados e , objetivospuestos o
-        where e.puesto = o.puesto and e.empleado=".$id;
+        where e.puesto = o.puesto and e.cuit='".$id."'";
+        $this->setDSN(DSN);
         $test->setSQL($sql);
         return $test->getJson();
        }
@@ -87,7 +91,8 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $test= QuerySQL::getInstance();
         $sql="select (select descripcion from objetivos where objetivo = o.objetivo) as objetivo
 from empleados e , objetivospuestos o
-where e.puesto = o.puesto and e.empleado=".$id;
+where e.puesto = o.puesto and e.cuit='".$id."'";
+        $this->setDSN(DSN);
         $test->setSQL($sql);
         return $test->getJson();
        }       
@@ -97,17 +102,9 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $test= QuerySQL::getInstance();
         $sql="select *
         from empleados";
+        $this->setDSN(DSN); 
         $test->setSQL($sql);
         return $test->getJson();
-       }
-
-       public function total_empleados(){
-       	require_once('lib/model/SQL.php');
-       	$test= QuerySQL::getInstance();
-       	$test->setSQL("select count(*) as cantidad_total from empleados");
-		    $record=$test->excuteSQL();
-		    $this->total = $record->fields['cantidad_total'];
-		    return $this->total;
        }
 
        public function getObjetivosJson(){
@@ -115,6 +112,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $test= QuerySQL::getInstance();
         $sql="select *
         from objetivos";
+        $this->setDSN(DSN);
         $test->setSQL($sql);
         return $test->getJson();
        }
@@ -123,6 +121,7 @@ where e.puesto = o.puesto and e.empleado=".$id;
        	require_once('lib/model/SQL.php');
        	$test= QuerySQL::getInstance();
        	$sql='select * from empleados where id='.$id;
+        $this->setDSN(DSN);
        	$test->setSQL($sql);
         //return $test->executeByObject();
         return $test->getJson();
@@ -166,9 +165,11 @@ where e.puesto = o.puesto and e.empleado=".$id;
           $update=false;
           if($objetivo_buscado==false){
             fwrite($fp,"No Encontrado objetido: ".$record->objetivo);
+            $this->setDSN(DSN);
             $test->setSQL("select count(*) as cantidad from objetivos");
             $cantidad=$test->excuteSQL();
             $cant = $cantidad[0] + 1;
+            $this->setDSN(DSNMODIFY);  
             $test->setSQL("insert into objetivos (objetivo, descripcion) VALUES(".$cant.",'".$record->objetivo."')");
             $obj=$test->excuteSQL();
             $objetivo_id = $cant;
@@ -176,10 +177,11 @@ where e.puesto = o.puesto and e.empleado=".$id;
             //Ahora buscamos si existe el objetivo con el id
             fwrite($fp,"Encontrado objetido: ".$record->objetivo);
             $objetivo_id = $objetivo_buscado[0];
-            $sql="select empleado_id 
+            $sql="select empleado_cuit
             from objetivos_targets_empleado
-            where empleado_id = ".$record->empleado." and objetivo_id=".$objetivo_id;
+            where empleado_cuit = '".$record->empleado."' and objetivo_id=".$objetivo_id;
             fwrite($fp,"Debug sql: ".$sql."\n");
+            $this->setDSN(DSN);
             $test->setSQL($sql);
             $encontrado=$test->excuteSQL();
             $valor = var_dump($encontrado);
@@ -189,11 +191,13 @@ where e.puesto = o.puesto and e.empleado=".$id;
             }
           }
           if ($update==false){
-            $sql="insert into objetivos_targets_empleado (objetivo_id, empleado_id, target) VALUES(".$objetivo_id.",".$record->empleado.",'".$record->target."')";
+            $sql="insert into objetivos_targets_empleado (objetivo_id, empleado_cuit, target) VALUES(".$objetivo_id.",'".$record->empleado."','".$record->target."')";
+            $this->setDSN(DSNMODIFY);
             $test->setSQL($sql);
             $test->excuteSQL();
           }else{
-            $sql = "update objetivos_targets_empleado set target='".$record->target."' where empleado_id=".$record->empleado." and objetivo_id=".$objetivo_id;     
+            $sql = "update objetivos_targets_empleado set target='".$record->target."' where empleado_cuit='".$record->empleado."' and objetivo_id=".$objetivo_id;     
+            $this->setDSN(DSNMODIFY);
             $test->setSQL($sql);
             $test->excuteSQL();
             fwrite($fp,"Actualizando record: \n");
@@ -207,7 +211,6 @@ where e.puesto = o.puesto and e.empleado=".$id;
         require_once('lib/model/SQL.php');
         //$json = '{"periodo":"2013-11-19","empleado":"12","respuestafeedback":"esta seria la justificacion del empleado"}';
         $j = json_decode($json);
-
         /**
         *Debug para justificacion
         **/
@@ -217,9 +220,9 @@ where e.puesto = o.puesto and e.empleado=".$id;
         fclose($fp);
         $record=$j[0];
         $test= QuerySQL::getInstance();
-        $test->setSQL("insert into justificacion_empleados ( empleado_id,periodo,respuesta_feedback ) values( ".$record->empleado.", '".$record->periodo."', '".$record->respuestafeedback."' ) ");
+        $this->setDSN(DSNMODIFY);
+        $test->setSQL("insert into justificacion_empleados ( empleado_cuit,periodo,respuesta_feedback ) values( '".$record->empleado."', '".$record->periodo."', '".$record->respuestafeedback."' ) ");
         $result=$test->excuteSQL();
-        
       }
 
       public function setMensajeInicialDelJefe($json){
@@ -231,7 +234,6 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $fp = fopen(LOGLOCAL, 'w');
         fwrite($fp, 'justificacion inicial jefe\n');
         fwrite($fp,$json."\n");
-        
         $record=$j[0];
         if ($record->estado=='true'){
            $estado_msj='T';
@@ -240,9 +242,10 @@ where e.puesto = o.puesto and e.empleado=".$id;
         }
         $test= QuerySQL::getInstance();
         $sql="insert into informe_empleados 
-        (empleado_id,periodo,estado_inicial,estado_final,descripcion_inicial,descripcion_final) 
-        values( ".$record->empleado.", '".$record->periodo."', '".$estado_msj."','','".$record->descripcion."','')";
+        (empleado_cuit,periodo,estado_inicial,estado_final,descripcion_inicial,descripcion_final) 
+        values( '".$record->empleado."', '".$record->periodo."', '".$estado_msj."','','".$record->descripcion."','')";
         fwrite($fp,$sql."\n");
+        $this->setDSN(DSNMODIFY);
         $test->setSQL($sql);        
         $result=$test->excuteSQL();
         fclose($fp);
@@ -256,24 +259,41 @@ where e.puesto = o.puesto and e.empleado=".$id;
         $fp = fopen(LOGLOCAL, 'w');
         fwrite($fp, 'justificacion final jefe\n');
         fwrite($fp,$json."\n");
-        
         $record=$j[0];
         if ($record->estado=='true'){
            $estado_msj='T';
         }else{
           $estado_msj='F';
         }
-
         $test= QuerySQL::getInstance();
-        $sql = "update informe_empleados set descripcion_final='".$record->descripcion."', estado_final='".$estado_msj."'  where empleado_id=".$record->empleado." and periodo='".$record->periodo."'";
+        $sql = "update informe_empleados set descripcion_final='".$record->descripcion."', estado_final='".$estado_msj."'  where empleado_cuit='".$record->empleado."' and periodo='".$record->periodo."'";
+        $this->setDSN(DSNMODIFY);
         $test->setSQL($sql);
         fwrite($fp,$sql."\n");
         fclose($fp);
         $result=$test->excuteSQL();
-
       }
 
-
+      public function setPromocionesJefe($json){
+        require_once('lib/model/SQL.php');
+        $j = json_decode($json);
+        $fp = fopen(LOGLOCAL, 'w');
+        fwrite($fp, 'Promocion jefe\n');
+        fwrite($fp,$json."\n");
+        $test= QuerySQL::getInstance();
+        $total = count($j);
+        for ($i=0; $i < $total ; $i++){
+          $record=$j[$i];
+          $sql="insert into promocion_empleados
+        (empleado_cuit,periodo,puesto,sueldo) 
+        values( '".$record->empleado."', '".$record->periodo."',".$record->puesto.",".$record->sueldo.")";
+        fwrite($fp,$sql."\n");
+        $this->setDSN(DSNMODIFY);  
+        $test->setSQL($sql);        
+        $result=$test->excuteSQL();
+        }
+        fclose($fp); 
+      }
 }
 
 ?>
