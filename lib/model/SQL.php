@@ -29,16 +29,16 @@ class PGCustom
   private $q=NULL;
   private $dsn = "";
 
-  public function connect(){
-  	$this->link = pg_Connect($this->getDSN());
-  }
-
   public function setDSN($dsn){
     $this->dsn=$dsn;
   }
 
   private function getDSN(){
     return $this->dsn;
+  }
+
+  public function connect(){
+  	$this->link = pg_Connect($this->getDSN());
   }
 
   public function returnByJson($sql){
